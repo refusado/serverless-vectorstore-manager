@@ -1,12 +1,14 @@
 'use client';
 
-import { githubService } from '@/services/github-service';
+import { useGithub } from '@/hooks/useGithub';
 
 export default function Home() {
+  const { getFiles, getFileContent } = useGithub();
+
   const test = async () => {
-    const files = await githubService.getFiles();
+    const files = await getFiles();
     console.log(files);
-    const fileContent = await githubService.getFileContent(files[4].fileName);
+    const fileContent = await getFileContent(files[4].fileName);
     console.log(fileContent);
   };
 

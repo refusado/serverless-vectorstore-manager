@@ -1,16 +1,22 @@
+import { useCallback } from 'react';
+
 const GITHUB_USER = 'refusado';
 const GITHUB_REPO = 'api-planner';
 const REPO_BRANCH = 'main';
+const BASE_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}`;
 
-export const githubService = {
-  getFiles,
-  getFileContent,
-};
+export function useGithub() {
+  const getFiles = useCallback(() => fetchFiles(), []);
+  const getFileContent = useCallback(
+    (fileName: string) => fetchFileContent(fileName),
+    [],
+  );
 
-const baseUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}`;
+  return { getFiles, getFileContent };
+}
 
-async function getFiles(): Promise<{ fileName: string }[]> {
-  const response = await fetch(`${baseUrl}/contents?ref=${REPO_BRANCH}`);
+async function fetchFiles(): Promise<{ fileName: string }[]> {
+  const response = await fetch(`${BASE_URL}/contents?ref=${REPO_BRANCH}`);
   if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
 
   const files = (await response.json()) as { name: string }[];
@@ -23,12 +29,12 @@ async function getFiles(): Promise<{ fileName: string }[]> {
   });
 }
 
-async function getFileContent(fileName: string): Promise<{
+async function fetchFileContent(fileName: string): Promise<{
   fileName: string;
   fileContent: string;
 }> {
   const response = await fetch(
-    `${baseUrl}/contents/${fileName}?ref=${REPO_BRANCH}`,
+    `${BASE_URL}/contents/${fileName}?ref=${REPO_BRANCH}`,
   );
   if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
 
