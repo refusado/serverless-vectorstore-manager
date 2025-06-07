@@ -44,3 +44,14 @@ export interface KnowledgeDocInfo {
   isVectorized: boolean;
   vectorizedAt?: Date;
 }
+
+// repository file information for listing
+export interface FileInfo {
+  fileName: string;
+}
+
+// repository file information with content for specific file
+export interface FileContent {
+  fileName: string;
+  fileContent: unknown;
+}
