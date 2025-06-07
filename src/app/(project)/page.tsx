@@ -1,15 +1,47 @@
 'use client';
 
-import { useGithub } from '@/hooks/useGithub';
+import { useFirebase } from '@/hooks/useFirebase';
+import { Timestamp } from 'firebase/firestore';
 
 export default function Home() {
-  const { getFiles, getFileContent } = useGithub();
+  const {
+    saveDocument,
+    readDocuments,
+    removeDocument,
+    readDocument,
+    updateDocument,
+  } = useFirebase();
 
   const test = async () => {
-    const files = await getFiles();
-    console.log(files);
-    const fileContent = await getFileContent(files[4].fileName);
-    console.log(fileContent);
+    const testName = 'cool-data';
+
+    const savedDocument = await saveDocument({
+      sourceName: testName,
+      updatedAt: Timestamp.fromDate(new Date()),
+      embedding: [
+        0.333, -0.444, 0.873, -0.231, 0.005, 0.621, -0.412, 0.394, 0.027,
+      ],
+    });
+    console.log('savedDocument', savedDocument);
+
+    const allDocuments = await readDocuments();
+    console.log('allDocuments', allDocuments);
+
+    const updatedDocument = await updateDocument(testName, {
+      embedding: [
+        0.111, -0.222, 0.873, -0.231, 0.005, 0.621, -0.412, 0.394, 0.027,
+      ],
+    });
+    console.log('updatedDocument', updatedDocument);
+
+    const foundDocument = await readDocument(testName);
+    console.log('foundDocument', foundDocument);
+
+    const removedDocument = await removeDocument(testName);
+    console.log('removedDocument', removedDocument);
+
+    const foundDocument2 = await readDocument(testName);
+    console.log('foundDocument2', foundDocument2);
   };
 
   return (

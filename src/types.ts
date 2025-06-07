@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 // where the knowledge docs are stored
 export interface KnowledgeDocDirectory {
   files: {
@@ -19,20 +21,18 @@ export interface KnowledgeKeyContent {
   content: string;
 }
 
-// part of a knowledge key content, used for vectorization
+// part of a knowledge key content, used for embedding
 export interface KnowledgeKeyContentPart {
   sourceName: string;
   contentPart: string;
   partNumber: number;
 }
 
-// vectorization information of a part of a key content
-// stored in the database
-export interface VectorDoc {
+// embedding of a part of a key content. Stored in the vectorstore
+export interface EmbeddingDoc {
   sourceName: string;
-  partNumber: number;
-  vectors: number[];
-  updatedAt: Date;
+  embedding: number[];
+  updatedAt: Timestamp;
 }
 
 // information of a knowledge doc for display
@@ -41,8 +41,8 @@ export interface KnowledgeDocInfo {
   sourceUrl: string;
   title: string;
   description: string;
-  isVectorized: boolean;
-  vectorizedAt?: Date;
+  isEmbedded: boolean;
+  embeddedAt?: Date;
 }
 
 // repository file information for listing
