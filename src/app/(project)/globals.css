@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.link {
+  @apply text-blue-300 hover:text-blue-400 duration-150 underline;
+}
