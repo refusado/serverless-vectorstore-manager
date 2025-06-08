@@ -52,6 +52,8 @@ export interface FileInfo {
 
 // repository file information with content for specific file
 export interface FileContent {
-  fileName: string;
-  fileContent: unknown;
+  name: string;
+  title: string;
+  description: string;
+  content: string;
 }

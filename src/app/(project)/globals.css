@@ -3,3 +3,7 @@
 .link {
   @apply text-blue-300 hover:text-blue-400 duration-150 underline;
 }
+
+.btn {
+  @apply px-3 py-1 my-0.5 text-neutral-100 cursor-pointer rounded-xs hover:opacity-80 duration-100;
+}
