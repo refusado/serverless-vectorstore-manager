@@ -7,7 +7,7 @@ import {
   updateDocument,
 } from '@/services/firebase-service';
 
-export function useFirebase() {
+export function useVectorStore() {
   return {
     saveDocument: useCallback(saveDocument, []),
     readDocuments: useCallback(readDocuments, []),
