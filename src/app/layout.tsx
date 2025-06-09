@@ -25,7 +25,7 @@ function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
       className={`${fontSans.variable} ${fontMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-neutral-900 text-neutral-100 antialiased">
+      <body className="bg-background text-foreground antialiased">
         {children}
       </body>
     </html>
