@@ -8,8 +8,10 @@ export function ContentCard({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="max-h-[90vh] w-11/12 max-w-3xl overflow-y-auto rounded bg-neutral-800 p-6">
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div onClick={onClose} className="fixed inset-0 bg-neutral-900/70" />
+
+      <div className="relative max-h-[90vh] w-11/12 max-w-3xl overflow-y-auto rounded bg-neutral-800 p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">{title} data</h2>
           <button onClick={onClose} className="btn bg-red-700/50">

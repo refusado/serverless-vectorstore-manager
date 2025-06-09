@@ -37,12 +37,11 @@ export interface EmbeddingDoc {
 
 // information of a knowledge doc for display
 export interface KnowledgeDocInfo {
-  sourceName: string;
-  sourceUrl: string;
+  name: string;
   title: string;
   description: string;
-  isEmbedded: boolean;
-  embeddedAt?: Date;
+  content: string;
+  embeddedAt: string;
 }
 
 // repository file information for listing
