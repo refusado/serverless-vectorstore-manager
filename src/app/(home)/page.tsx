@@ -9,6 +9,7 @@ import { useVectorSearch } from '@/hooks/useVectorSearch';
 import { Timestamp } from 'firebase/firestore';
 import { ContentCard } from '@/components/content-card';
 import { DataTable, TableData } from '@/components/data-table';
+import { toast } from 'sonner';
 
 export default function Home() {
   const { getFiles, getFileContent } = useFiles();
@@ -34,9 +35,10 @@ export default function Home() {
 
         setFiles(fetchedFiles);
         setDocs(docsMap);
+        toast.success('Files and documents loaded successfully');
       } catch (error) {
         console.error('Error fetching files or documents:', error);
-        alert('An error occurred while fetching files or documents.');
+        toast.error('An error occurred while fetching files or documents.');
       }
     })();
   }, [getFiles, readDocuments]);
@@ -66,10 +68,11 @@ export default function Home() {
         },
       }));
 
-      console.log(`File ${fileName} vectorized successfully`);
+      console.log(`File "${fileName}" vectorized successfully`);
+      toast.success(`File "${fileName}" vectorized successfully`);
     } catch (error) {
       console.error(`Error vectorizing file ${fileName}:`, error);
-      alert('An error occurred while vectorizing the file.');
+      toast.error('An error occurred while vectorizing the file.');
     }
   }
 
@@ -88,7 +91,7 @@ export default function Home() {
       console.log(`Content for file ${fileName} displayed successfully`);
     } catch (error) {
       console.error(`Error displaying content for file ${fileName}:`, error);
-      alert('An error occurred while fetching the content.');
+      toast.error(`Error displaying content for file ${fileName}`);
     }
   }
 
@@ -103,10 +106,11 @@ export default function Home() {
         return newDocs;
       });
 
-      console.log(`Vectors for file ${fileName} deleted successfully`);
+      console.log(`Vectors for file "${fileName}" deleted successfully`);
+      toast.success(`Vectors for file "${fileName}" deleted successfully`);
     } catch (error) {
       console.error(error);
-      alert('An error occurred while deleting the vectors.');
+      toast.error(`An error occurred while deleting "${fileName}" vectors.`);
     }
   }
 

@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Roboto as Sans, Roboto_Mono as Mono } from 'next/font/google';
+import { Toaster } from '@/components/ui/sonner';
 
 const fontSans = Sans({
   variable: '--font-sans',
@@ -27,6 +28,12 @@ function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
     >
       <body className="bg-background text-foreground antialiased">
         {children}
+        <Toaster
+          position="bottom-center"
+          theme="dark"
+          richColors
+          swipeDirections={['right', 'bottom', 'left']}
+        />
       </body>
     </html>
   );
