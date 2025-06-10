@@ -1,3 +1,13 @@
+import { XIcon } from 'lucide-react';
+import { Button } from './ui/button';
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+
 export function ContentCard({
   title,
   data,
@@ -9,31 +19,40 @@ export function ContentCard({
 }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center">
-      <div onClick={onClose} className="fixed inset-0 bg-neutral-900/70" />
+      <div
+        onClick={onClose}
+        className="bg-background/60 fixed inset-0 backdrop-blur-xs"
+      />
 
-      <div className="relative max-h-[90vh] w-11/12 max-w-3xl overflow-y-auto rounded bg-neutral-800 p-6">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">{title} data</h2>
-          <button onClick={onClose} className="btn bg-red-700/50">
-            Close
-          </button>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <tbody>
-              {data.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((cell, cellIndex) => (
-                    <td key={cellIndex} className="border-b px-4 py-2">
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <Card className="relative max-h-[90vh] w-11/12 max-w-3xl overflow-y-auto">
+        <CardHeader className="mb-4 flex items-center justify-between">
+          <CardTitle className="text-xl font-semibold">{title} data</CardTitle>
+          <CardAction>
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              className="cursor-pointer"
+            >
+              <XIcon /> Close
+            </Button>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          {data.map((row, rowIndex) => (
+            <p
+              key={rowIndex}
+              className="hover:bg-muted/50 flex w-full space-x-2 border-t px-3.5 py-3.5 duration-100"
+            >
+              <b>{formatFieldTitle(row[0])}:</b>
+              <span className="ml-auto">{row[1]}</span>
+            </p>
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
+}
+
+function formatFieldTitle(str: string): string {
+  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, (match) => match.toUpperCase());
 }

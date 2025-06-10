@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { useVectorSearch } from '@/hooks/useVectorSearch';
 import { Timestamp } from 'firebase/firestore';
 import { ContentCard } from '@/components/content-card';
+import { DataTable, TableData } from '@/components/data-table';
 
 export default function Home() {
   const { getFiles, getFileContent } = useFiles();
@@ -72,7 +73,7 @@ export default function Home() {
     }
   }
 
-  async function handleDetails(fileName: string) {
+  async function handleDetail(fileName: string) {
     try {
       const content = await getFileContent(fileName);
       if (!content) throw new Error(`Content for file ${fileName} not found`);
@@ -111,65 +112,27 @@ export default function Home() {
 
   return (
     <main className="flex justify-center">
-      <div className="container my-12 rounded-lg p-4">
-        <table className="min-w-full rounded-md bg-purple-400/10">
-          <thead>
-            <tr className="border-b border-neutral-200/20 text-left">
-              <th className="p-3">File Name</th>
-              <th className="p-3">Vectorized?</th>
-              <th className="p-3">Updated At</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {files.map(({ fileName }) => {
-              const doc = docs[fileName];
-              const isVectorized = !!doc;
-              const updatedAt = isVectorized
-                ? format(
-                    new Date(doc.updatedAt.toDate()),
-                    'MM/dd/yyyy HH:mm:ss',
-                  )
-                : '-';
+      <div className="container mx-auto my-12 max-w-6xl px-4">
+        <DataTable
+          data={files.map(({ fileName }): TableData => {
+            const doc = docs[fileName];
+            const isVectorized = !!doc;
+            const updatedAt = isVectorized
+              ? format(new Date(doc.updatedAt.toDate()), 'MM/dd/yyyy HH:mm:ss')
+              : null;
 
-              return (
-                <tr
-                  key={fileName}
-                  className="border-b border-neutral-200/20 hover:bg-neutral-300/5"
-                >
-                  <td className="p-3">{fileName}</td>
-                  <td className="p-3">{isVectorized ? 'Yes' : 'No'}</td>
-                  <td className="p-3">{updatedAt}</td>
-                  <td className="space-x-2 text-sm">
-                    {!isVectorized ? (
-                      <button
-                        onClick={() => handleVectorize(fileName)}
-                        className="btn bg-blue-500 hover:bg-blue-600"
-                      >
-                        Vectorize
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => handleDetails(fileName)}
-                          className="btn bg-green-600/70"
-                        >
-                          Details
-                        </button>
-                        <button
-                          onClick={() => handleDeleteVectors(fileName)}
-                          className="btn bg-red-600/70"
-                        >
-                          Delete Vectors
-                        </button>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+            return {
+              fileName,
+              isVectorized,
+              updatedAt,
+              actions: {
+                onVectorize: handleVectorize,
+                onDetail: handleDetail,
+                onDeleteVectors: handleDeleteVectors,
+              },
+            };
+          })}
+        />
       </div>
       {docInfo && (
         <ContentCard
